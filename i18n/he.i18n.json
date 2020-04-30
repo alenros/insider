@@ -1,6 +1,6 @@
 ﻿{
     "ui": {
-        "welcome to insider": "החפרפרת",
+        "welcome to insider": "ברוכים הבאים לחפרפרת",
         "new game": "משחק חדש",
         "join game": "הצטרפות למשחק",
         "waiting for players": "ממתין לשחקנים נוספים",
@@ -23,11 +23,10 @@
         "enter an access code": "הכנס קוד גישה",
         "invalid access code": "שגיאה, לא נמצא משחק עם קוד הגישה הזה!",
         "join": "הצטרפות",
-        "footer": "מבוסס על האפליקציה למטאור של ספייפול:",
+        "footer": "מבוסס על האפליקציה למטאור של האמן המזוייף מגיע בת-ים: https://fake-artist.herokuapp.com",
 	"credits": "המשחק פורסם על-ידי חברת ",
 	"Author": "שאלות/תקלות/תש/מין/כלכלה - תשלחו לי הודעה ב-בגג: ",
 	"logo-file": "logo-he.png",
-	"locations-file":"words-he",
 	"enter word": "הקלד מילה",
 	"enter category": "הקלד נושא",
 	"submit user word":"השתמש במילה הזו!",
