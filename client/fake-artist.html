@@ -46,7 +46,7 @@
 
 <template name="startMenu">
   <div class="main-menu">
-    <h4>{{_ "ui.welcome to fake artist" }}</h4>
+    <h4>{{_ "ui.welcome to insider" }}</h4>
 	<img src="/img/{{_ "ui.logo-file"}}">
     <hr>
     <div class="button-container">
@@ -116,7 +116,6 @@
 </td><td>
 <div>
 	<input type="text" id="user-word" name="userWord" placeholder='{{_ "ui.enter word" }}'>
-  <input type="text" id="user-category" name="userCategory" placeholder='{{_ "ui.enter category" }}'>
 <BR>
 	<button class="btn-submit-user-word" data-player-id="{{ player._id}}">{{_ "ui.submit user word" }}</button>
 </div>	
@@ -172,13 +171,18 @@
               <strong>{{_ game.word.text }}</strong>
             </div>
           </div>
-          <div class="current-role-name">
-	<strong>{{_ player.category }}</strong>
-          </div>
         </div>
       {{else}}
         {{#if player.isQuestionMaster }}
           <div class="player-status player-status-question-master">{{{_ "ui.you are the question master" }}}</div>
+          <div class="current-word">
+            <div class="current-word-header">
+              {{_ "ui.the word" }}:
+            </div>
+            <div class="current-word-text">
+              <strong>{{_ game.word.text }}</strong>
+            </div>
+          </div>
         {{else}}
           <div class="player-status player-status-commoner">{{{_ "ui.you are not the insider" }}}</div>
         {{/if}}
@@ -242,7 +246,7 @@
     {{#if isLoading }}
       <span class="spinner"></span>
     {{else}}
-      {{_ "ui.welcome to fake artist" }}
+      {{_ "ui.welcome to insider" }}
     {{/if}}
   </h4>
 
@@ -265,7 +269,7 @@
     {{#if isLoading }}
       <span class="spinner"></span>
     {{else}}
-      {{_ "ui.welcome to fake artist" }}
+      {{_ "ui.welcome to insider" }}
     {{/if}}
   </h4>
 

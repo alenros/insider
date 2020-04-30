@@ -1,6 +1,6 @@
 {
     "ui": {
-        "welcome to fake artist": "Welcome to Insider",
+        "welcome to insider": "Welcome to Insider",
         "new game": "New Game",
         "join game": "Join Game",
         "waiting for players": "Waiting For Players...",
@@ -9,11 +9,10 @@
         "start game": "Start Game",
         "leave game": "Leave Game",
         "show hide": "show/hide",
-        "you are the fake artist": "You are the Insider!",
-        "you are not the fake artist": "You are <strong>not</strong> the insider!",
+        "you are the insider": "You are the Insider!",
+        "you are not the insider": "You are <strong>not</strong> the insider!",
         "you are the question master": "You are the Question Master!",
         "the word": "The Word",
-        "your category": "The Category",
         "players": "Players",
         "first": "1<span>st</span>",
         "words reference": "Word Reference",
