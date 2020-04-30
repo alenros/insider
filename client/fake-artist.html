@@ -125,13 +125,9 @@
 {{_ "ui.let us choose"}}
 </td>
 <td>
-
-  
     <button class="btn-start">{{_ "ui.start game" }}</button>
-
 </td>
 </tr>
-
 </table>
 
 <div class="button-container">
@@ -167,7 +163,7 @@
               {{_ "ui.the word" }}:
             </div>
             <div class="current-word-text">
-              <strong>{{_ game.word.text }}</strong>
+              <strong>{{_ game.word }}</strong>
             </div>
           </div>
         </div>
@@ -179,7 +175,7 @@
               {{_ "ui.the word" }}:
             </div>
             <div class="current-word-text">
-              <strong>{{_ game.word.text }}</strong>
+              <strong>{{_ game.word }}</strong>
             </div>
           </div>
         {{else}}
@@ -198,8 +194,8 @@
       <li>
         <div class="player-name">
           {{ name }}
-          {{#if isFirstPlayer}}
-            <div class="first-player-indicator">{{{_ "ui.first" }}}</div>
+          {{#if isQuestionMaster}}
+            <div class="question-master-indicator">{{{_ "ui.question master indicator" }}}</div>
           {{/if}}
         </div>
       </li>

@@ -99,7 +99,7 @@ function getCurrentPlayer(){
 function generateAccessCode(){
   var code = "";
   var possible = "abcdefghijklmnopqrstuvwxyz";
-    code = getRandomWordAndCategory().text + "-" + getRandomWordAndCategory().text;
+    code = getRandomWord().text + "-" + getRandomWord().text;
 
     return code;
 }
@@ -109,7 +109,7 @@ function generateNewGame(){
     accessCode: generateAccessCode(),
     state: "waitingForPlayers",
     word: null,
-    lengthInMinutes: 10,
+    lengthInMinutes: 5,
     endTime: null,
     paused: false,
     pausedTime: null
@@ -136,16 +136,16 @@ function generateNewPlayer(game, name){
   return Players.findOne(playerID);
 }
 
-function getRandomWordAndCategory(){
+function getRandomWord(){
 
 	if(getUserLanguage()=="he")
 	{
-	var wordIndex = Math.floor(Math.random() * words_he.length);
-	return words_he[wordIndex];
+  var wordIndex = Math.floor(Math.random() * words_he.length);
+	  return words_he[wordIndex];
 	}
 	else
 	{
-	  var wordIndex = Math.floor(Math.random() * words_en.length);
+    var wordIndex = Math.floor(Math.random() * words_en.length);
 	  return words_en[wordIndex];
 	}
 }
@@ -427,7 +427,6 @@ Template.lobby.events({
 	'click .btn-submit-user-word': function(event){
     var game = getCurrentGame();
     var word = document.getElementById("user-word").value;
-    var category = document.getElementById("user-category").value;
     var questionMasterId = $(event.currentTarget).data('player-id');
     var questionMaster = Players.findOne({_id: questionMasterId});
     var players = Array.from(Players.find({gameID: game._id},{_id:{$ne:questionMasterId}}));
@@ -454,40 +453,56 @@ Template.lobby.events({
     }});
 
       players.forEach(function(player){
-        Players.update(player._id, {$set: {category: category}});
+        Players.update(player._id, {$set: {word: word}});
       });
 
-      Players.update(questionMasterId, {$set: {category: category}});
+      Players.update(questionMasterId, {$set: {word: word}});
 
-      var wordAndCategory = {
-        text:word,category:category
-      }
-      Games.update(game._id, {$set: {state: 'inProgress', word: wordAndCategory, endTime: gameEndTime, paused: false, pausedTime: null}});
-    },										  
+      Games.update(game._id, {$set: {state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null}});
+    },
+    
   'click .btn-start': function () {
 
     var game = getCurrentGame();
-    var wordAndCategory = getRandomWordAndCategory();
+    var word = getRandomWord().text;
     var players = Players.find({gameID: game._id});
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
-    var insiderIndex = Math.floor(Math.random() * players.count());
-    var firstPlayerIndex = Math.floor(Math.random() * players.count());
+    if(players.count() < 4)
+    {
+      console.log("less than 4 players")
+      return;
+    }
+    
+    let playerIndexesLeft = new Array(players.count());
+
+    for (var i = playerIndexesLeft.length - 1; i > 0; i--) {
+        playerIndexesLeft.push(i);
+    }
+     
+     var arr = [];
+
+     while(arr.length < 2){
+      var r = Math.floor(Math.random() * players.count());
+      if(arr.indexOf(r) === -1) arr.push(r);
+      }
+
+      var insiderIndex = arr[0];
+      var questionMasterIndex = arr[1];
 
     players.forEach(function(player, index){
       Players.update(player._id, {$set: {
-        isQuestionMaster: false,
-        isInsider: index === insiderIndex,
-        isFirstPlayer: index === firstPlayerIndex
-      }});
+        isQuestionMaster: index === questionMasterIndex,
+        isInsider: index === insiderIndex
+        }});
     });
 
     players.forEach(function(player){
-      Players.update(player._id, {$set: {category: wordAndCategory.category}});
+      Players.update(player._id, {$set: {word: word}});
     });
 
-    Games.update(game._id, {$set: {state: 'inProgress', word: wordAndCategory, endTime: gameEndTime, paused: false, pausedTime: null}});
+    Games.update(game._id, {$set: {state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null}});
   },
   'click .btn-toggle-qrcode': function () {
     $(".qrcode-container").toggle();
