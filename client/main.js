@@ -592,6 +592,22 @@ Template.gameView.events({
     var game = getCurrentGame();
     Games.update(game._id, {$set: {state: 'waitingForPlayers'}});
   },
+  'click .btn-word-guessed': function () {
+    // TODO Disable the button for everyone, grey out the button, Flip hourglass for everyone
+    
+    let hourglass = document.getElementById('hourglass');
+    hourglass.className = "fa fa-hourglass-end";
+
+    // The time left is the game time (5 minutes, here in seconds) minus the time passed.
+    // This means you have the same time to guess the who the Insider is as you have took to guess the word.
+    var game = getCurrentGame();
+    var localEndTime = game.endTime - TimeSync.serverOffset();
+    let timeRemaining = localEndTime - Session.get('time');
+    var newTimeLeftInSeconds = ((5*60*1000) - timeRemaining) / 1000;
+    var localEndTime = moment().add(newTimeLeftInSeconds, 'seconds');
+    var gameEndTime = TimeSync.serverTime(localEndTime);
+    Games.update(game._id, {$set: {paused: false, pausedTime: null, endTime: gameEndTime}});
+  },
   'click .btn-toggle-status': function () {
     $(".status-container-content").toggle();
   },
