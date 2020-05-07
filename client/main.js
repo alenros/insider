@@ -138,16 +138,22 @@ function generateNewPlayer(game, name){
 
 function getRandomWord(){
 
-	if(getUserLanguage()=="he")
+  let userLanguage = getUserLanguage();
+	if(userLanguage == "he")
 	{
-  var wordIndex = Math.floor(Math.random() * words_he.length);
+    var wordIndex = Math.floor(Math.random() * words_he.length);
 	  return words_he[wordIndex];
 	}
-	else
+	else if(userLanguage == "en")
 	{
     var wordIndex = Math.floor(Math.random() * words_en.length);
 	  return words_en[wordIndex];
-	}
+  }
+  else if(userLanguage == "ja")
+  {
+    var wordIndex = Math.floor(Math.random() * words_ja.length);
+	  return words_ja[wordIndex];
+  }
 }
 
 function shuffleArray(array) {
