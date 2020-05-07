@@ -214,7 +214,9 @@
     {{/each}}
   </ul>
 -->    
-  <button class="btn-word-guessed"><i id="hourglass" class="fa fa-hourglass-start"></i> {{_ "ui.word guessed"}}</button>
+  {{#if isQuestionMaster}}
+    <button id="btn-word-guessed" class="btn-word-guessed"><i id="hourglass" class="fa fa-hourglass-start"></i> {{_ "ui.word guessed"}}</button>
+  {{/if}}
   <hr>
   
   <div class="button-container">
