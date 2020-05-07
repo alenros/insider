@@ -521,8 +521,7 @@ Template.lobby.events({
 
 Template.lobby.rendered = function (event) {
   var url = getAccessLink();
-  // TODO change
-  url = "https://fake-artist.herokuapp.com/"+url;
+  url = "https://insider-online.herokuapp.com/"+url;
   var qrcodesvg = new Qrcodesvg(url, "qrcode", 250);
   qrcodesvg.draw();
 };
