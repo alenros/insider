@@ -444,7 +444,6 @@ Template.lobby.events({
     var firstPlayerIndex = Math.floor(Math.random() * players.length);
 
     players.forEach(function(player, index){
-      console.log("updating " + player.name);
       Players.update(player._id, {$set: {
         isQuestionMaster: false,
         isInsider: index === insiderIndex,
@@ -475,27 +474,35 @@ Template.lobby.events({
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
-    if(players.count() < 4)
-    {
-      console.log("less than 4 players")
-      return;
+    // TODO Don't start game on less than 4 players. notify.
+        
+    let playerIndexesLeft = []
+
+    // Distributing the roles: 
+    let i =0;
+    while(playerIndexesLeft.length < players.count()){
+      playerIndexesLeft.push(i);
+      i = i + 1;
     }
     
-    let playerIndexesLeft = new Array(players.count());
+    var chosenIndexes = []
 
-    for (var i = playerIndexesLeft.length - 1; i > 0; i--) {
-        playerIndexesLeft.push(i);
+    // The special roles in the game are the Insider and the Question Master. This may change when an Informer role is added.
+    let specialRoles = 2;
+
+    // Get a player index for each special role, unless there are less players than special roles.
+    // Having less players than special roles makes the game unplayable, but allowing it let's players test the game.
+    // This could be removed if the user would get a UI hint that they need more players.
+    while(chosenIndexes.length < specialRoles || players.count() < specialRoles){
+      let r = Math.floor(Math.random() * playerIndexesLeft.length);
+      let chosenPlayerIndex = playerIndexesLeft[r];
+      chosenIndexes.push(chosenPlayerIndex);
+      
+      playerIndexesLeft.splice(chosenPlayerIndex, 1);
     }
-     
-     var arr = [];
 
-     while(arr.length < 2){
-      var r = Math.floor(Math.random() * players.count());
-      if(arr.indexOf(r) === -1) arr.push(r);
-      }
-
-      var insiderIndex = arr[0];
-      var questionMasterIndex = arr[1];
+    var insiderIndex = chosenIndexes[0];
+    var questionMasterIndex = chosenIndexes[1];
 
     players.forEach(function(player, index){
       Players.update(player._id, {$set: {
