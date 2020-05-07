@@ -474,8 +474,6 @@ Template.lobby.events({
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
-    // TODO Don't start game on less than 4 players. notify.
-        
     let playerIndexesLeft = []
 
     // Distributing the roles: 
@@ -493,7 +491,7 @@ Template.lobby.events({
     // Get a player index for each special role, unless there are less players than special roles.
     // Having less players than special roles makes the game unplayable, but allowing it let's players test the game.
     // This could be removed if the user would get a UI hint that they need more players.
-    while(chosenIndexes.length < specialRoles || players.count() < specialRoles){
+    while(chosenIndexes.length < specialRoles && players.count() < specialRoles){
       let r = Math.floor(Math.random() * playerIndexesLeft.length);
       let chosenPlayerIndex = playerIndexesLeft[r];
       chosenIndexes.push(chosenPlayerIndex);
