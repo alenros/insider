@@ -99,9 +99,9 @@ function getCurrentPlayer(){
 function generateAccessCode(){
   var code = "";
   var possible = "abcdefghijklmnopqrstuvwxyz";
-    code = getRandomWord().text + "-" + getRandomWord().text;
-
-    return code;
+  code = getRandomWord().text + "-" + getRandomWord().text;
+  
+  return code;
 }
 
 function generateNewGame(){
@@ -153,6 +153,11 @@ function getRandomWord(){
   {
     var wordIndex = Math.floor(Math.random() * words_ja.length);
 	  return words_ja[wordIndex];
+  }
+  else if(userLanguage == "fr")
+  {
+    var wordIndex = Math.floor(Math.random() * words_fr.length);
+	  return words_fr[wordIndex];
   }
 }
 
@@ -594,7 +599,7 @@ Template.gameView.events({
   },
   'click .btn-word-guessed': function () {
     // TODO Disable the button for everyone, grey out the button, Flip hourglass for everyone
-    
+    // TODO ensure it gets enabled on the next round
     let hourglass = document.getElementById('hourglass');
     hourglass.className = "fa fa-hourglass-end";
 
