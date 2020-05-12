@@ -159,6 +159,11 @@ function getRandomWord(){
     var wordIndex = Math.floor(Math.random() * words_fr.length);
 	  return words_fr[wordIndex];
   }
+  else
+  {
+    var wordIndex = Math.floor(Math.random() * words_en.length);
+	  return words_en[wordIndex];
+  }
 }
 
 function shuffleArray(array) {
