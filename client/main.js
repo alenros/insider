@@ -96,12 +96,16 @@ function getCurrentPlayer(){
   }
 }
 
-function generateAccessCode(){
-  var code = "";
-  var possible = "abcdefghijklmnopqrstuvwxyz";
-  code = getRandomWord().text + "-" + getRandomWord().text;
-  
-  return code;
+function generateAccessCode() {
+  let accessCodeLength = 5;
+  let accessCode = "";
+
+  for (var i = 0; i < accessCodeLength; i++) {
+    let randomDigit = Math.floor(Math.random() * 10);
+    accessCode = accessCode + randomDigit;
+  }
+
+  return accessCode;
 }
 
 function generateNewGame(){
