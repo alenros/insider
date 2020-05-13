@@ -1,7 +1,7 @@
 {
     "ui": {
         "welcome to insider": "Welcome to Insider",
-        "new game": "New Game",
+        "new game": "New Game (Japanese words)",
         "join game": "Join Game",
         "waiting for players": "Waiting For Players...",
         "access code": "Access code",
@@ -27,7 +27,7 @@
         "footer": "Application based on the Fake Artist Goes to New-York meteor application: https://fake-artist.herokuapp.com ",
 	"credits": "Game published by ",
 	"Author": "Found a Bug? got a Suggestion? send me a PM on BGG: ",
-	"logo-file": "logo-en.png",
+	"logo-file": "logo-ja.png",
 	"enter word":"enter your word",
 	"enter category":"enter the category for the word",
 	"submit user word":"Use this word!",
