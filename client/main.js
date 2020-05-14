@@ -554,12 +554,12 @@ Template.lobby.rendered = function (event) {
 function getTimeRemaining(){
   var game = getCurrentGame();
   var localEndTime = game.endTime - TimeSync.serverOffset();
-
+  let timeRemaining;
   if (game.paused){
     var localPausedTime = game.pausedTime - TimeSync.serverOffset();
-    var timeRemaining = localEndTime - localPausedTime;
+    timeRemaining = localEndTime - localPausedTime;
   } else {
-    var timeRemaining = localEndTime - Session.get('time');
+    timeRemaining = localEndTime - Session.get('time');
   }
 
   if (timeRemaining < 0) {
