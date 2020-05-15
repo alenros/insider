@@ -609,8 +609,8 @@ Template.gameView.events({
   'click .btn-word-guessed': function () {
     // TODO Disable the button for everyone, grey out the button, Flip hourglass for everyone
     // TODO ensure it gets enabled on the next round
-    let hourglass = document.getElementById('hourglass');
-    hourglass.className = "fa fa-hourglass-end";
+    let hourglassImage = document.getElementById('hourglass');
+    hourglassImage.src = "/icons/hourglass-end.svg";
 
     // The time left is the game time (5 minutes, here in seconds) minus the time passed.
     // This means you have the same time to guess the who the Insider is as you have took to guess the word.
