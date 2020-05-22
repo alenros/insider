@@ -449,6 +449,16 @@ Template.lobby.events({
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
+    // Track words submittd by users
+    let userWord = {
+      word: word,
+      category: category,
+      language: Session.get("language"),
+      playerCount: players.length
+    };
+
+    UserWords.insert(userWord);
+
     // Track the language used for the game an the number of players
     let languageUsed = {
       gameID: game._id,
