@@ -452,7 +452,6 @@ Template.lobby.events({
     // Track words submittd by users
     let userWord = {
       word: word,
-      category: category,
       language: Session.get("language"),
       playerCount: players.length
     };
