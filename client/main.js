@@ -498,6 +498,15 @@ Template.lobby.events({
 
     let playerIndexesLeft = []
 
+    // Track the language used for the game an the number of players
+    let languageUsed = {
+      gameID: game._id,
+      language: Session.get("language"),
+      playerCount: players.length
+    };
+
+    LanguagesUsed.insert(languageUsed);
+
     // Distributing the roles: 
     let i = 0;
     while (playerIndexesLeft.length < players.count()) {
