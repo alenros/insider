@@ -9,7 +9,16 @@ function initUserLanguage() {
     Session.set("language", language);
   }
 
-  setUserLanguage(getUserLanguage());
+  let userLanguage = getUserLanguage()
+  setUserLanguage(userLanguage);
+
+  // Track the language used for the game
+  let languageUsed = {
+    language: userLanguage,
+    languageType: "Browser",
+  };
+
+  LanguagesUsed.insert(languageUsed);
 }
 
 function getUserLanguage() {
@@ -462,6 +471,7 @@ Template.lobby.events({
     let languageUsed = {
       gameID: game._id,
       language: Session.get("language"),
+      languageType: "Chosen",
       playerCount: players.length
     };
 
@@ -530,6 +540,7 @@ Template.lobby.events({
     let languageUsed = {
       gameID: game._id,
       language: Session.get("language"),
+      languageType: "Chosen",
       playerCount: players.length
     };
 
