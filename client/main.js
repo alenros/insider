@@ -496,7 +496,26 @@ Template.lobby.events({
 
     Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null } });
   },
+  'click #copyAccessLinkImg': function () {
+    console.log("copying");
+    let accessLink = "https://insider-online.herokuapp.com/" + getAccessLink();
 
+    const textArea = document.createElement("textarea");
+    textArea.value = accessLink;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+
+    var tooltip = document.getElementById("copyAccessLinkTooltip");
+    tooltip.innerHTML = "Copied!";
+  },
+  'mouseout #copyAccessLinkImg': function () {
+    var tooltip = document.getElementById("copyAccessLinkTooltip");
+    // TODO revert the text using the translated string
+    // tooltip.innerHTML = "Copy link";
+  },
   'click .btn-start': function () {
 
     var game = getCurrentGame();
