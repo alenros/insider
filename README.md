@@ -3,10 +3,13 @@
 # Insider
 ![Logo](public/img/logo-en.png)
 
-This player aid for A Fake Artist Goes to New York eliminates the need for a Question master and lets everyone participate.
+This player aid for Insider will:
+1. Distribute the secret roles.
+2. Pick a secret word for you, or let you choose your own, and only show it to the appropriate players.
+3. Provide a 5-minute sand timer, that you can flip when the secret word is guessed.
 
-This code powers https://fake-artist.herokuapp.com - where you can play the game.
+This code powers https://insider-online.herokuapp.com - where you can play the game.
 
-It is based on Evan Brumley's Spyfall: https://github.com/evanbrumley/spyfall which can be played here: http://spyfall.crabhat.com
+It is based on Evan Brumley's Crabhat Spyfall, which was succeeded by tannerkrewson and can be played here: https://spyfall.tannerkrewson.com/
 
 The original boardgame at BoardGameGeek: https://boardgamegeek.com/boardgame/206051/insider
