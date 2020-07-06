@@ -679,6 +679,15 @@ Template.gameView.events({
     var localEndTime = moment().add(newTimeLeftInSeconds, 'seconds');
     var gameEndTime = TimeSync.serverTime(localEndTime);
     Games.update(game._id, { $set: { paused: false, pausedTime: null, endTime: gameEndTime } });
+    
+    var players = Array.from(Players.find({ gameID: game._id }));
+    let gameAnalytics = {
+      playerCount: players.length,
+      timeLeft: timeRemaining,
+      sandtimer: "flipped",
+    };
+  
+    Analytics.insert(gameAnalytics);
   },
   'click .btn-toggle-status': function () {
     $(".status-container-content").toggle();
