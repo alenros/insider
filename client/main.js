@@ -458,12 +458,24 @@ Template.lobby.events({
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
-    // Track words submittd by users
-    let userWord = {
-      word: word,
+    if(players.length < 4)
+    {
+        console.log("firing error");
+        FlashMessages.sendError("Can't play with less than 4 players");
+        return;
+    }
+
+
+    // Track game analytics
+    let gameAnalytics = {
+      gameID: game._id,
+      playerCount: players.length,
+      gameType: "game-word",
       language: Session.get("language"),
-      playerCount: players.length
+      word: word,
     };
+
+    Analytics.insert(gameAnalytics);
 
     UserWords.insert(userWord);
 
@@ -534,17 +546,18 @@ Template.lobby.events({
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
-    let playerIndexesLeft = []
-
-    // Track the language used for the game an the number of players
-    let languageUsed = {
+    // Track game analytics
+    let gameAnalytics = {
       gameID: game._id,
+      playerCount: players.length,
+      gameType: "game-word",
       language: Session.get("language"),
       languageType: "Chosen",
-      playerCount: players.length
     };
 
-    LanguagesUsed.insert(languageUsed);
+    Analytics.insert(gameAnalytics);
+
+    let playerIndexesLeft = []
 
     // Distributing the roles: 
     let i = 0;
