@@ -450,7 +450,7 @@ Template.lobby.events({
   'click .btn-leave': leaveGame,
   'click .btn-submit-user-word': function (event) {
     var game = getCurrentGame();
-    var word = document.getElementById("user-word").value;
+    var userWord = document.getElementById("user-word").value;
     var questionMasterId = $(event.currentTarget).data('player-id');
     var questionMaster = Players.findOne({ _id: questionMasterId });
     var players = Array.from(Players.find({ gameID: game._id }));
@@ -465,14 +465,13 @@ Template.lobby.events({
         return;
     }
 
-
     // Track game analytics
     let gameAnalytics = {
       gameID: game._id,
       playerCount: players.length,
-      gameType: "game-word",
+      gameType: "user-word",
       language: Session.get("language"),
-      word: word,
+      word: userWord,
     };
 
     Analytics.insert(gameAnalytics);
