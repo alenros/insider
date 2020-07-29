@@ -223,6 +223,16 @@ function trackGameState() {
 function leaveGame() {
   var player = getCurrentPlayer();
 
+  let players = Array.from(Players.find({ gameID: game._id }));
+  
+  let gameAnalytics = {
+    playerCount: players.length,
+    timeLeft: timeRemaining,
+    status: "left game",
+  };
+
+  Analytics.insert(gameAnalytics);
+
   Session.set("currentView", "startMenu");
   Players.remove(player._id);
 
@@ -294,8 +304,24 @@ Template.footer.events({
 Template.startMenu.events({
   'click #btn-new-game': function () {
     Session.set("currentView", "createGame");
+    let referrer  = document.referrer;
+    let referrerAnalytics = {
+      cameFrom: referrer,
+      action: "New Game"
+    };
+
+    Analytics.insert(referrerAnalytics);
+    
   },
   'click #btn-join-game': function () {
+    let referrer  = document.referrer;
+    let referrerAnalytics = {
+        cameFrom: referrer,
+        action: "Join Game",
+    };
+
+    Analytics.insert(referrerAnalytics);
+
     Session.set("currentView", "joinGame");
   }
 });
@@ -307,6 +333,13 @@ Template.startMenu.helpers({
 });
 
 Template.startMenu.rendered = function () {
+  let referrer  = document.referrer;
+  let referrerAnalytics = {
+      cameFrom: referrer,
+  };
+
+  Analytics.insert(referrerAnalytics);
+ 
   resetUserState();
 };
 
@@ -403,6 +436,13 @@ Template.joinGame.helpers({
 
 Template.joinGame.rendered = function (event) {
   resetUserState();
+  let referrer  = document.referrer;
+  let referrerAnalytics = {
+      cameFrom: referrer,
+      action: "Join Game",
+  };
+
+  Analytics.insert(referrerAnalytics);
 
   var urlAccessCode = Session.get('urlAccessCode');
 
@@ -706,15 +746,24 @@ Template.gameView.helpers({
 Template.gameView.events({
   'click .btn-leave': leaveGame,
   'click .btn-end': function () {
-    var game = getCurrentGame();
-    Games.update(game._id, { $set: { state: 'waitingForPlayers' } });
+    Games.update(game._id, { $set: { state: 'waitingForPlayers'} });
+
+    let players = Array.from(Players.find({ gameID: game._id }));
+  
+    let gameAnalytics = {
+      playerCount: players.length,
+      timeLeft: timeRemaining,
+      status: "game ended",
+    };
+  
+    Analytics.insert(gameAnalytics);
   },
   'click .btn-word-guessed': function () {
     // TODO Disable the button for everyone, grey out the button, Flip hourglass for everyone
     // TODO ensure it gets enabled on the next round
     let hourglassImage = document.getElementById('hourglass');
     hourglassImage.src = "/icons/hourglass-end.svg";
-
+    
     // The time left is the game time (5 minutes, here in seconds) minus the time passed.
     // This means you have the same time to guess the who the Insider is as you have took to guess the word.
     var game = getCurrentGame();
