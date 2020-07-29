@@ -372,7 +372,6 @@ Template.joinGame.events({
       var game = Games.findOne({
         accessCode: accessCode
       });
-
       if (game) {
         Meteor.subscribe('players', game._id);
         player = generateNewPlayer(game, playerName);
@@ -436,6 +435,23 @@ Template.lobby.helpers({
 
     var players = Players.find({ 'gameID': game._id }, { 'sort': { 'createdAt': 1 } }).fetch();
 
+    // Update for the follower variant
+    let canPlayFollowerVariant = players.length >= 6;
+    
+    if(canPlayFollowerVariant === false){
+      document.getElementById("use-follower-variant").disabled = true;
+
+      document.getElementById("follower-variant-label").classList.add("disabled");
+    }
+    else{
+      document.getElementById("use-follower-variant").disabled = false;
+
+      document.getElementById("follower-variant-label").classList.remove("disabled");
+    }
+
+
+    Games.update(game._id, { $set: { canPlayFollowerVariant: canPlayFollowerVariant} });
+    
     players.forEach(function (player) {
       if (player._id === currentPlayer._id) {
         player.isCurrent = true;
@@ -570,6 +586,11 @@ Template.lobby.events({
     // The special roles in the game are the Insider and the Question Master. This may change when an Informer role is added.
     let specialRoles = 2;
 
+    let shouldAddFollowerRole = document.getElementById("use-follower-variant").checked;
+    if(shouldAddFollowerRole == true){
+      specialRoles = 3;
+    }
+
     // Get a player index for each special role, unless there are less players than special roles.
     // Having less players than special roles makes the game unplayable, but allowing it let's players test the game.
     // This could be removed if the user would get a UI hint that they need more players.
@@ -583,21 +604,33 @@ Template.lobby.events({
 
     var insiderIndex = chosenIndexes[0];
     var questionMasterIndex = chosenIndexes[1];
+    let followerIndex;
+    if(shouldAddFollowerRole){
+      followerIndex = chosenIndexes[2];
+    }
+
+    let currentInsiderName ="";
 
     players.forEach(function (player, index) {
       Players.update(player._id, {
         $set: {
           isQuestionMaster: index === questionMasterIndex,
-          isInsider: index === insiderIndex
+          isInsider: index === insiderIndex,
+          isFollower: index === followerIndex,
         }
       });
+      
+      if(index === insiderIndex){
+        currentInsiderName = player.name
+      };
+
     });
 
     players.forEach(function (player) {
       Players.update(player._id, { $set: { word: word } });
     });
 
-    Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null } });
+    Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null, insiderName: currentInsiderName, usingFollowerVariant: shouldAddFollowerRole} });
   },
   'click .btn-toggle-qrcode': function () {
     $(".qrcode-container").toggle();

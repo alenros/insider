@@ -118,6 +118,18 @@
   </ol>
 
   <hr>
+
+  <div id="variant-container">
+    <h4>Variants</h4>
+      <div class="tooltip">
+        <span class="tooltiptext" id="playWithFollowerTooltip">{{_ "ui.follower tooltip" }}</span>
+          <label for="use-follower-variant" id="follower-variant-label" class="disabled">
+            <input type="checkbox" id="use-follower-variant" disabled=true>
+            {{_ "ui.play with the follower role"}}
+          </label>
+        </div>
+  </div>
+
 <table>
 <tr><td>
 {{_ "ui.choose own word"}}
@@ -152,15 +164,15 @@
     <button class="btn-toggle-status">{{_ "ui.show hide" }}</button>
 	<table>
 	<tr><td class="status-container-content">
-	{{#if player.isInsider }}
-  <img src="/img/role-insider.png" width=80px height=80px>
-  {{else }}
-    {{#if player.isQuestionMaster }}
+    {{#if player.isInsider }}
+     <img src="/img/role-insider.png" width=80px height=80px>
+    {{else if player.isQuestionMaster}}
       <img src="/img/role-question-master.png" width=80px height=80px>
-    {{else }}
-      <img src="/img/role-commoner.png" width=80px height=80px>
+    {{else if player.isFollower}}
+        <img src="/img/role-follower.png" width=80px height=80px>
+      {{else }}
+        <img src="/img/role-commoner.png" width=80px height=80px>
     {{/if}}
-	{{/if}}
 	</td>
 	<td>
     <div class="status-container-content">
@@ -176,8 +188,7 @@
             </div>
           </div>
         </div>
-      {{else}}
-        {{#if player.isQuestionMaster }}
+      {{else if player.isQuestionMaster}}
           <div class="player-status player-status-question-master">{{{_ "ui.you are the question master" }}}</div>
           <div class="current-word">
             <div class="current-word-header">
@@ -187,9 +198,20 @@
               <strong>{{_ game.word }}</strong>
             </div>
           </div>
-        {{else}}
+      {{else if player.isFollower}}
+        <div class="player-status player-status-insider"> {{_ "ui.you are the follower" }}</div>
+        <div class="current-role">
+          <div class="current-word">
+            <div class="current-word-header">
+              {{_ "ui.the insider is" }} {{_ game.insiderName }}
+            </div>
+            <div class="current-word-text">
+              <strong>{{_ "ui.follower instructions" }}</strong>
+            </div>
+          </div>
+        </div>
+      {{else}}
           <div class="player-status player-status-commoner">{{{_ "ui.you are not the insider" }}}</div>
-        {{/if}}
       {{/if}}
     </div>
 </td>
@@ -205,12 +227,21 @@
           {{ name }}
           {{#if isQuestionMaster}}
             <div class="question-master-indicator">{{{_ "ui.question master indicator" }}}</div>
+          {{else if player.isFollower}}
+            {{#if isInsider}}
+              <div class="question-master-indicator">{{{_ "ui.insider indicator" }}}</div>
+            {{/if}}
           {{/if}}
         </div>
       </li>
     {{/each}}
   </ul>
-
+  <h4>Variants:</h4>
+  {{#if game.usingFollowerVariant}}
+    {{{_ "ui.follower variant used" }}}
+  {{else}}
+    None.
+  {{/if}}
   <div class="u-cf"></div>
   
 <!--
