@@ -11,14 +11,6 @@ function initUserLanguage() {
 
   let userLanguage = getUserLanguage()
   setUserLanguage(userLanguage);
-
-  // Track the language used for the game
-  let languageUsed = {
-    language: userLanguage,
-    languageType: "Browser",
-  };
-
-  LanguagesUsed.insert(languageUsed);
 }
 
 function getUserLanguage() {
@@ -534,17 +526,44 @@ Template.lobby.events({
 
     UserWords.insert(word);
 
-    // Track the language used for the game an the number of players
-    let languageUsed = {
-      gameID: game._id,
-      language: Session.get("language"),
-      languageType: "Chosen",
-      playerCount: players.length
-    };
+    var chosenIndexes = []
 
-    LanguagesUsed.insert(languageUsed);
+    // The special roles in the game are the Insider and the Question Master. This may change when an Informer role is added.
+    let specialRoles = 1;
 
-    var insiderIndex = Math.floor(Math.random() * regularPlayers.length);
+    let shouldAddFollowerRole = document.getElementById("use-follower-variant").checked;
+    if(shouldAddFollowerRole == true){
+      specialRoles = specialRoles + 1;
+    }
+
+    let playerIndexesLeft = []
+
+    // Distributing the roles: 
+    let i = 0;
+    while (playerIndexesLeft.length < players.length) {
+      playerIndexesLeft.push(i);
+      i = i + 1;
+    }
+
+    // Get a player index for each special role, unless there are less players than special roles.
+    // Having less players than special roles makes the game unplayable, but allowing it let's players test the game.
+    // This could be removed if the user would get a UI hint that they need more players.
+    while (chosenIndexes.length < specialRoles && players.length > specialRoles) {
+      let r = Math.floor(Math.random() * playerIndexesLeft.length);
+      let chosenPlayerIndex = playerIndexesLeft[r];
+      chosenIndexes.push(chosenPlayerIndex);
+
+      playerIndexesLeft.splice(chosenPlayerIndex, 1);
+    }
+
+    var insiderIndex = chosenIndexes[0];
+    let followerIndex;
+    if(shouldAddFollowerRole){
+      followerIndex = chosenIndexes[1];
+    }
+
+    let currentInsiderName ="";
+
     var firstPlayerIndex = Math.floor(Math.random() * regularPlayers.length);
 
     regularPlayers.forEach(function (player, index) {
@@ -552,10 +571,39 @@ Template.lobby.events({
         $set: {
           isQuestionMaster: false,
           isInsider: index === insiderIndex,
+          isFollower: index === followerIndex,
           isFirstPlayer: index === firstPlayerIndex
         }
       });
+      if(index === insiderIndex){
+        currentInsiderName = player.name
+      };
     });
+
+    regularPlayers.forEach(function (player) {
+      Players.update(player._id, { $set: { word: word } });
+    });
+
+    Players.update(questionMasterId, { $set: { word: word } });
+
+    let shouldPlayAllInsiderVariant = document.getElementById("use-all-insiders-variant").checked;
+
+    let percentEveryoneIsAnInsider = 100;
+    let isEveryoneAnInsider = Math.floor(Math.random() * 100) < percentEveryoneIsAnInsider;
+
+    if(shouldPlayAllInsiderVariant === true && isEveryoneAnInsider === true){
+      players.forEach(function (player) {
+        if(player.isQuestionMaster === false){
+          Players.update(player._id, {
+            $set: {
+              isInsider: true,
+              // Can't have a follower in an all-insider game
+              isFollower: false,
+            }
+          });
+        }
+      });
+    }
 
     Players.update(questionMasterId, {
       $set: {
@@ -565,13 +613,25 @@ Template.lobby.events({
       }
     });
 
-    regularPlayers.forEach(function (player) {
-      Players.update(player._id, { $set: { word: word } });
-    });
+    let variantsUsed = [];
+    if(shouldAddFollowerRole === true){
+      variantsUsed.push("follower");
+    }
+    if(shouldPlayAllInsiderVariant === true){
+      variantsUsed.push("all-insiders");
+    }
 
-    Players.update(questionMasterId, { $set: { word: word } });
+    if(variantsUsed.length > 0){
+      let gameAnalytics = {
+        playerCount: players.length,
+        variants: variantsUsed,
+      };
 
-    Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null } });
+      Analytics.insert(gameAnalytics);
+    }
+
+
+    Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null,insiderName: currentInsiderName, usingFollowerVariant: shouldAddFollowerRole, usingAllInsidersVaraint: shouldPlayAllInsiderVariant } });
   },
   'click #copyAccessLinkImg': function () {
     console.log("copying");
@@ -627,9 +687,10 @@ Template.lobby.events({
     let specialRoles = 2;
 
     let shouldAddFollowerRole = document.getElementById("use-follower-variant").checked;
-    if(shouldAddFollowerRole == true){
-      specialRoles = 3;
+    if(shouldAddFollowerRole === true){
+      specialRoles = specialRoles + 1;
     }
+
 
     // Get a player index for each special role, unless there are less players than special roles.
     // Having less players than special roles makes the game unplayable, but allowing it let's players test the game.
@@ -666,11 +727,47 @@ Template.lobby.events({
 
     });
 
+    let shouldPlayAllInsiderVariant = document.getElementById("use-all-insiders-variant").checked;
+
+    let percentEveryoneIsAnInsider = 100;
+    let isEveryoneAnInsider = Math.floor(Math.random() * 100) < percentEveryoneIsAnInsider;
+
+    if(shouldPlayAllInsiderVariant === true && isEveryoneAnInsider === true){
+      players.forEach(function (player) {
+        if(player.isQuestionMaster === false){
+          Players.update(player._id, {
+            $set: {
+              isInsider: true,
+              // Can't have a follower in an all-insider game
+              isFollower: false,
+            }
+          });
+        }
+      });
+    }
+    
+    let variantsUsed = [];
+    if(shouldAddFollowerRole === true){
+      variantsUsed.push("follower");
+    }
+    if(shouldPlayAllInsiderVariant === true){
+      variantsUsed.push("all-insiders");
+    }
+
+    if(variantsUsed.length > 0){
+      let gameAnalytics = {
+        playerCount: players.length,
+        variants: variantsUsed,
+      };
+
+      Analytics.insert(gameAnalytics);
+    }
+
     players.forEach(function (player) {
       Players.update(player._id, { $set: { word: word } });
     });
 
-    Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null, insiderName: currentInsiderName, usingFollowerVariant: shouldAddFollowerRole} });
+    Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null, insiderName: currentInsiderName, usingFollowerVariant: shouldAddFollowerRole, usingAllInsidersVaraint: shouldPlayAllInsiderVariant} });
   },
   'click .btn-toggle-qrcode': function () {
     $(".qrcode-container").toggle();

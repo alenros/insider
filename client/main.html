@@ -117,15 +117,26 @@
 
   <hr>
 
-  <div id="variant-container">
+  <div class="variants-container">
     <h4>Variants</h4>
+    <div class="variant">
+      <div class="tooltip">
+        <span class="tooltiptext" id="playWithAllInsidersTooltip">{{_ "ui.all insiders tooltip" }}</span>
+          <label for="use-all-insiders-variant" id="all-insiders-variant-label">
+            <input type="checkbox" id="use-all-insiders-variant">
+            {{{_ "ui.play with the all-insiders variant"}}}
+          </label>
+      </div>
+    </div>
+    <div class="variant">
       <div class="tooltip">
         <span class="tooltiptext" id="playWithFollowerTooltip">{{_ "ui.follower tooltip" }}</span>
           <label for="use-follower-variant" id="follower-variant-label" class="disabled">
             <input type="checkbox" id="use-follower-variant" disabled=true>
-            {{_ "ui.play with the follower role"}}
+            {{{_ "ui.play with the follower variant"}}}
           </label>
-        </div>
+      </div>
+    </div>
   </div>
 
 <table>
@@ -235,11 +246,14 @@
     {{/each}}
   </ul>
   <h4>Variants:</h4>
-  {{#if game.usingFollowerVariant}}
-    {{{_ "ui.follower variant used" }}}
-  {{else}}
-    None.
-  {{/if}}
+  <div class="variants-container">
+    {{#if game.usingFollowerVariant}}
+      {{{_ "ui.follower variant used" }}}
+    {{/if}}
+    {{#if game.usingAllInsidersVariant}}
+      {{{_ "ui.all insiders variant used"}}}
+    {{/if}}
+  </div>
   <div class="u-cf"></div>
   
 <!--
