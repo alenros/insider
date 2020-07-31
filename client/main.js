@@ -220,7 +220,7 @@ function leaveGame() {
   
   let gameAnalytics = {
     playerCount: players.length,
-    timeLeft: currentTimeRemaining,
+    timeLeft: currentTimeRemaining/1000/60,
     status: "left game",
   };
 
@@ -835,7 +835,7 @@ Template.gameView.events({
   
     let gameAnalytics = {
       playerCount: players.length,
-      timeLeft: currentTimeRemaining,
+      timeLeft: currentTimeRemaining/1000/60,
       status: "game ended",
     };
   
@@ -864,7 +864,7 @@ Template.gameView.events({
     var players = Array.from(Players.find({ gameID: game._id }));
     let gameAnalytics = {
       playerCount: players.length,
-      timeLeft: timeRemaining,
+      timeLeft: timeRemaining/1000/60,
       sandtimer: "flipped",
       word: game.word,
     };
