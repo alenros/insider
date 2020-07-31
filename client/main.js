@@ -866,6 +866,7 @@ Template.gameView.events({
       playerCount: players.length,
       timeLeft: timeRemaining,
       sandtimer: "flipped",
+      word: game.word,
     };
   
     Analytics.insert(gameAnalytics);
