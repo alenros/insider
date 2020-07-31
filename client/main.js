@@ -467,23 +467,6 @@ Template.lobby.helpers({
 
     var players = Players.find({ 'gameID': game._id }, { 'sort': { 'createdAt': 1 } }).fetch();
 
-    // Update for the follower variant
-    let canPlayFollowerVariant = players.length >= 6;
-    
-    if(canPlayFollowerVariant === false){
-      document.getElementById("use-follower-variant").disabled = true;
-
-      document.getElementById("follower-variant-label").classList.add("disabled");
-    }
-    else{
-      document.getElementById("use-follower-variant").disabled = false;
-
-      document.getElementById("follower-variant-label").classList.remove("disabled");
-    }
-
-
-    Games.update(game._id, { $set: { canPlayFollowerVariant: canPlayFollowerVariant} });
-    
     players.forEach(function (player) {
       if (player._id === currentPlayer._id) {
         player.isCurrent = true;
