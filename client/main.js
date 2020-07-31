@@ -482,10 +482,9 @@ Template.lobby.events({
   'click .btn-submit-user-word': function (event) {
     var game = getCurrentGame();
     var word = document.getElementById("user-word").value;
-    var questionMasterId = $(event.currentTarget).data('player-id');
-    var questionMaster = Players.findOne({ _id: questionMasterId });
+    let questionMaster = getCurrentPlayer();
     var players = Array.from(Players.find({ gameID: game._id }));
-    let regularPlayers = players.filter(p => p._id != questionMasterId);
+    let regularPlayers = players.filter(p => p._id != questionMaster._id);
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
@@ -567,7 +566,7 @@ Template.lobby.events({
       Players.update(player._id, { $set: { word: word } });
     });
 
-    Players.update(questionMasterId, { $set: { word: word } });
+    Players.update(questionMaster._id, { $set: { word: word } });
 
     let shouldPlayAllInsiderVariant = document.getElementById("use-all-insiders-variant").checked;
 
@@ -588,7 +587,7 @@ Template.lobby.events({
       });
     }
 
-    Players.update(questionMasterId, {
+    Players.update(questionMaster._id, {
       $set: {
         isQuestionMaster: true,
         isInsider: false,
