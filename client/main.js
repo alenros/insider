@@ -214,12 +214,13 @@ function trackGameState() {
 
 function leaveGame() {
   var player = getCurrentPlayer();
-
+  let game = getCurrentGame();
+  let currentTimeRemaining = getTimeRemaining();
   let players = Array.from(Players.find({ gameID: game._id }));
   
   let gameAnalytics = {
     playerCount: players.length,
-    timeLeft: timeRemaining,
+    timeLeft: currentTimeRemaining,
     status: "left game",
   };
 
@@ -827,13 +828,14 @@ Template.gameView.events({
   'click .btn-end': function () {
     let game = getCurrentGame();
     Games.update(game._id, { $set: { state: 'waitingForPlayers'} });
-    let timeRemaining = timeRemaining();
+
+    let currentTimeRemaining = getTimeRemaining();
 
     let players = Array.from(Players.find({ gameID: game._id }));
   
     let gameAnalytics = {
       playerCount: players.length,
-      timeLeft: timeRemaining,
+      timeLeft: currentTimeRemaining,
       status: "game ended",
     };
   
