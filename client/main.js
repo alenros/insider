@@ -843,7 +843,9 @@ Template.gameView.helpers({
 Template.gameView.events({
   'click .btn-leave': leaveGame,
   'click .btn-end': function () {
+    let game = getCurrentGame();
     Games.update(game._id, { $set: { state: 'waitingForPlayers'} });
+    let timeRemaining = timeRemaining();
 
     let players = Array.from(Players.find({ gameID: game._id }));
   
