@@ -73,11 +73,9 @@
         {{_ "ui.copy access link"}}
       </span>
     </div>
-  </div>
 
     <span class="access-button-separator"></span>
 
-  <div class="access-buttons">
     <a class="access-button btn-toggle-qrcode" href="javascript:void(0);">
       <img src="/icons/qrcode.svg" class="icon" />
     </a>
@@ -87,7 +85,6 @@
     <a class="access-button btn-send-access-code-email" href='mailto:?subject={{_ "ui.join my game" }}&body=https://insider-online.herokuapp.com/{{ accessLink }}'>
       <img src="/icons/envelope-open.svg" class="icon" />
     </a>
-  </div>
 
   <div class="qrcode-container" style="display: none;">
     <div id="qrcode" class="qrcode"></div>
@@ -96,6 +93,7 @@
       <a href="{{ accessLink }}">https://insider-online.herokuapp.com/{{ accessLink }}</a>
     </div>
   </div>
+</div>
 
   <hr>
 
