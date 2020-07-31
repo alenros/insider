@@ -866,7 +866,11 @@ Template.gameView.events({
     var game = getCurrentGame();
     var localEndTime = game.endTime - TimeSync.serverOffset();
     let timeRemaining = localEndTime - Session.get('time');
-    var newTimeLeftInSeconds = ((5 * 60 * 1000) - timeRemaining) / 1000;
+    let newTimeLeftInSeconds = 0;
+    // Don't flip a negative timer - the game is over.
+    if (timeRemaining > 0) {
+      newTimeLeftInSeconds = ((5 * 60 * 1000) - timeRemaining) / 1000;
+    }
     var localEndTime = moment().add(newTimeLeftInSeconds, 'seconds');
     var gameEndTime = TimeSync.serverTime(localEndTime);
     Games.update(game._id, { $set: { paused: false, pausedTime: null, endTime: gameEndTime } });
