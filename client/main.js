@@ -571,7 +571,7 @@ Template.lobby.events({
 
     let shouldPlayAllInsiderVariant = document.getElementById("use-all-insiders-variant").checked;
 
-    let percentEveryoneIsAnInsider = 100;
+    let percentEveryoneIsAnInsider = 10;
     let isEveryoneAnInsider = Math.floor(Math.random() * 100) < percentEveryoneIsAnInsider;
 
     if(shouldPlayAllInsiderVariant === true && isEveryoneAnInsider === true){
