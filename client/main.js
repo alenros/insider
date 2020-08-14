@@ -219,6 +219,7 @@ function leaveGame() {
   let players = Array.from(Players.find({ gameID: game._id }));
   
   let gameAnalytics = {
+    gameID: game._id,
     playerCount: players.length,
     timeLeft: currentTimeRemaining/1000/60,
     status: "left game",
@@ -496,16 +497,7 @@ Template.lobby.events({
         return;
     }
 
-    // Track game analytics
-    let gameAnalytics = {
-      gameID: game._id,
-      playerCount: players.length,
-      gameType: "user-word",
-      language: Session.get("language"),
-      word: word,
-    };
-
-    Analytics.insert(gameAnalytics);
+    
 
     UserWords.insert(word);
 
@@ -603,16 +595,18 @@ Template.lobby.events({
     if(shouldPlayAllInsiderVariant === true){
       variantsUsed.push("all-insiders");
     }
+    
+    // Track game analytics
+    let gameAnalytics = {
+      gameID: game._id,
+      playerCount: players.length,
+      gameType: "user-word",
+      language: Session.get("language"),
+      variants: variantsUsed,
+      word: word,
+    };
 
-    if(variantsUsed.length > 0){
-      let gameAnalytics = {
-        playerCount: players.length,
-        variants: variantsUsed,
-      };
-
-      Analytics.insert(gameAnalytics);
-    }
-
+    Analytics.insert(gameAnalytics);
 
     Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null,insiderName: currentInsiderName, usingFollowerVariant: shouldAddFollowerRole, usingAllInsidersVaraint: shouldPlayAllInsiderVariant } });
   },
@@ -644,16 +638,7 @@ Template.lobby.events({
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
-    // Track game analytics
-    let gameAnalytics = {
-      gameID: game._id,
-      playerCount: players.length,
-      gameType: "game-word",
-      language: Session.get("language"),
-      languageType: "Chosen",
-    };
-
-    Analytics.insert(gameAnalytics);
+    
 
     let playerIndexesLeft = []
 
@@ -737,14 +722,17 @@ Template.lobby.events({
       variantsUsed.push("all-insiders");
     }
 
-    if(variantsUsed.length > 0){
-      let gameAnalytics = {
-        playerCount: players.length,
-        variants: variantsUsed,
-      };
+    // Track game analytics
+    let gameAnalytics = {
+      gameID: game._id,
+      playerCount: players.length,
+      gameType: "game-word",
+      language: Session.get("language"),
+      languageType: "Chosen",
+      variants: variantsUsed,
+    };
 
-      Analytics.insert(gameAnalytics);
-    }
+    Analytics.insert(gameAnalytics);
 
     players.forEach(function (player) {
       Players.update(player._id, { $set: { word: word } });
@@ -834,6 +822,7 @@ Template.gameView.events({
     let players = Array.from(Players.find({ gameID: game._id }));
   
     let gameAnalytics = {
+      gameID: game._id,
       playerCount: players.length,
       timeLeft: currentTimeRemaining/1000/60,
       status: "game ended",
@@ -863,6 +852,7 @@ Template.gameView.events({
     
     var players = Array.from(Players.find({ gameID: game._id }));
     let gameAnalytics = {
+      gameID: game._id,
       playerCount: players.length,
       timeLeft: timeRemaining/1000/60,
       sandtimer: "flipped",
