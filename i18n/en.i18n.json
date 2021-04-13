@@ -43,6 +43,7 @@
 	"enter category":"enter the category for the word",
 	"submit user word":"Use this word!",
 	"choose own word":"use your own word",
-	"let us choose":"or let us choose it for you"
+    "let us choose":"or let us choose it for you",
+    "github link": "https://github.com/alenros/insider"
     }
 }
