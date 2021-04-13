@@ -515,7 +515,7 @@ Template.lobby.events({
 
     let playerIndexesLeft = []
 
-    // Distributing the roles: 
+    // Distributing the roles:
     let i = 0;
     while (playerIndexesLeft.length < players.length) {
       playerIndexesLeft.push(i);
@@ -613,7 +613,6 @@ Template.lobby.events({
     Games.update(game._id, { $set: { state: 'inProgress', word: word, endTime: gameEndTime, paused: false, pausedTime: null,insiderName: currentInsiderName, usingFollowerVariant: shouldAddFollowerRole, usingAllInsidersVaraint: shouldPlayAllInsiderVariant } });
   },
   'click #copyAccessLinkImg': function () {
-    console.log("copying");
     let accessLink = siteUrl + "/" + getAccessLink();
 
     const textArea = document.createElement("textarea");
