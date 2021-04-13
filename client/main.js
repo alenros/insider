@@ -1,5 +1,5 @@
 ﻿const siteUrl = "https://insider-online.herokuapp.com";
-const authorEmailAddress = "fakeartist@gmx.com";
+const authorEmail = "fakeartist@gmx.com";
 const authorBggUser = "alenros";
 const analyticsUrl = "https://c.statcounter.com/12248875/0/f1acb2d6/1/";
 
@@ -286,6 +286,12 @@ Template.main.helpers({
 });
 
 Template.footer.helpers({
+  authorEmail: function() {
+    return authorEmail;
+  },
+  authorBggUsername: function() {
+    return authorBggUser;
+  },
   languages: getLanguageList
 })
 
