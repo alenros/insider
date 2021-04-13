@@ -501,8 +501,6 @@ Template.lobby.events({
         return;
     }
 
-    
-
     UserWords.insert(word);
 
     var chosenIndexes = []
@@ -642,8 +640,6 @@ Template.lobby.events({
     var localEndTime = moment().add(game.lengthInMinutes, 'minutes');
     var gameEndTime = TimeSync.serverTime(localEndTime);
 
-    
-
     let playerIndexesLeft = []
 
     // Distributing the roles: 
@@ -662,7 +658,6 @@ Template.lobby.events({
     if(shouldAddFollowerRole === true){
       specialRoles = specialRoles + 1;
     }
-
 
     // Get a player index for each special role, unless there are less players than special roles.
     // Having less players than special roles makes the game unplayable, but allowing it let's players test the game.
