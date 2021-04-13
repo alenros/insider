@@ -1,8 +1,12 @@
-﻿Handlebars.registerHelper('toCapitalCase', function (str) {
+﻿const siteUrl = "https://insider-online.herokuapp.com";
+const authorEmailAddress = "fakeartist@gmx.com";
+const authorBggUser = "alenros";
+const analyticsUrl = "https://c.statcounter.com/12248875/0/f1acb2d6/1/";
+
+Handlebars.registerHelper('toCapitalCase', function (str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 });
 
-const siteUrl = "https://insider-online.herokuapp.com";
 function initUserLanguage() {
   var language = amplify.store("language");
 
