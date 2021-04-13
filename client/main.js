@@ -2,6 +2,7 @@
   return str.charAt(0).toUpperCase() + str.slice(1);
 });
 
+const siteUrl = "https://insider-online.herokuapp.com";
 function initUserLanguage() {
   var language = amplify.store("language");
 
@@ -450,6 +451,9 @@ Template.joinGame.rendered = function (event) {
 };
 
 Template.lobby.helpers({
+  siteUrl: function() {
+    return siteUrl;
+  },
   game: function () {
     return getCurrentGame();
   },
@@ -612,7 +616,7 @@ Template.lobby.events({
   },
   'click #copyAccessLinkImg': function () {
     console.log("copying");
-    let accessLink = "https://insider-online.herokuapp.com/" + getAccessLink();
+    let accessLink = siteUrl + "/" + getAccessLink();
 
     const textArea = document.createElement("textarea");
     textArea.value = accessLink;
@@ -756,8 +760,7 @@ Template.lobby.events({
 });
 
 Template.lobby.rendered = function (event) {
-  var url = getAccessLink();
-  url = "https://insider-online.herokuapp.com/" + url;
+  var url = siteUrl + "/" + getAccessLink();
   var qrcodesvg = new Qrcodesvg(url, "qrcode", 250);
   qrcodesvg.draw();
 };
