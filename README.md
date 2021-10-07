@@ -13,3 +13,10 @@ This code powers https://insider-online.herokuapp.com - where you can play the g
 It is based on Evan Brumley's Crabhat Spyfall, which was succeeded by tannerkrewson and can be played here: https://spyfall.tannerkrewson.com/
 
 The original boardgame at BoardGameGeek: https://boardgamegeek.com/boardgame/206051/insider
+
+# Credits
+I can code but can't draw, so all the art of the game come from the artists of [The Noun Project](https://thenounproject.com/)
+
+Translators:
+* [Johannes Fischer](https://github.com/JohannesFischer)
+* [Raphael Alexio](https://github.com/raphaelaleixo)
