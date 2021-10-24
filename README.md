@@ -20,3 +20,4 @@ I can code but can't draw, so all the art of the game come from the artists of [
 Translators:
 * [Johannes Fischer](https://github.com/JohannesFischer)
 * [Raphael Alexio](https://github.com/raphaelaleixo)
+* [Francesco T](https://www.boardgamegeek.com/user/omnigod)
