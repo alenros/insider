@@ -165,7 +165,7 @@ function getRandomWord() {
       words = words_ja;
       break;
     case "fr":
-      words = words_ja;
+      words = words_fr;
       break; 
     case "it":
       words = words_it;
