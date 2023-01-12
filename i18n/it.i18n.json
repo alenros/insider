@@ -38,6 +38,7 @@
         "footer": "Applicazione basata sull' applicazione meteor di the Fake Artist Goes to New-York: https://fake-artist.herokuapp.com ",
         "credits": "Gioco pubblicato da ",
         "Author": "Hai trovato un bug? Hai un suggerimento? Mandami un messaggio privato su BGG a: ",	"logo-file": "logo-en.png",
+        "translation credits": "Traduzione italiana a cura di <a href='https://boardgamegeek.com/user/omnigod'>omnigod</a>. In caso di errori, mandatemi una geekmail <a href='https://boardgamegeek.com/geekmail/compose?touser=omnigod'>omnigod@BGG</a>.",
         "enter word":"Inserisci la tua Parola",
         "enter category":"Inserisci la categoria della Parola",
         "submit user word":"Usa questa parola!",
