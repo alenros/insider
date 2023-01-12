@@ -1,4 +1,4 @@
-﻿const siteUrl = "https://insider-online.herokuapp.com";
+﻿const siteUrl = "https://insider.herokuapp.com";
 const authorEmail = "fakeartist@gmx.com";
 const authorBggUser = "alenros";
 const analyticsUrl = "https://c.statcounter.com/12248875/0/f1acb2d6/1/";
