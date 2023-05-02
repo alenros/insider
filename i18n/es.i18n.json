@@ -38,6 +38,7 @@
         "footer": "Basado en la app de \"El pintor impostor\" de meteor: https://fake-artist.herokuapp.com ",
 	"credits": "Juego original publicado por ",
 	"Author": "¿Problemas? ¿Sugerencias? Envíame un mensaje en BoardGameGeek: ",
+        "translation credits": "Translated by: <a href='https://github.com/camilosampedro'>camilosampedro</a>.",
 	"logo-file": "logo-es.png",
 	"enter word":"Escribe tu palabra",
 	"enter category":"Escribe la categoría de tu palabra",

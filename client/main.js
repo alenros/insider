@@ -170,6 +170,9 @@ function getRandomWord() {
     case "it":
       words = words_it;
       break;  	  
+    case "es":
+      words = words_es;
+      break;  	       
     default:
       words = words_en;
       break;
